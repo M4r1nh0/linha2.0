@@ -1,0 +1,61 @@
+const int s0 = 8;  
+
+const int s1 = 9;  
+const int s2 = 12;  
+const int s3 = 11;  
+const int out = 10;  
+ 
+int red = 0;  
+int green = 0;  
+int blue = 0;  
+   
+void setup()  
+{  
+  pinMode(s0, OUTPUT);  
+  pinMode(s1, OUTPUT);  
+  pinMode(s2, OUTPUT);  
+  pinMode(s3, OUTPUT);  
+  pinMode(out, INPUT);  
+ 
+  Serial.begin(9600);  
+  digitalWrite(s0, HIGH);  
+  digitalWrite(s1, LOW);  
+}  
+   
+void loop()
+{  
+  color(); //Chama a rotina que le as cores  
+  //Mostra no serial monitor os valores detectados  
+  Serial.print("Vermelho :");  
+  Serial.print(red, DEC);  
+  delay(500);
+  Serial.print(" Verde : ");  
+  Serial.print(green, DEC);
+  delay(500);  
+  Serial.print(" Azul : ");  
+  Serial.print(blue, DEC);  
+  delay(500);
+  Serial.println();  
+ 
+  if ((red < 200 ) &&(green > 115) && (blue < 138))  
+  {  
+   Serial.println("Verde");    
+  }  
+  Serial.println();  
+ }  
+   
+void color()  
+{  
+  //Rotina que le o valor das cores  
+  digitalWrite(s2, LOW);  
+  digitalWrite(s3, LOW);  
+  //count OUT, pRed, RED  
+  red = pulseIn(out, digitalRead(out) == HIGH ? LOW : HIGH);  
+  digitalWrite(s3, HIGH);  
+  //count OUT, pBLUE, BLUE  
+  blue = pulseIn(out, digitalRead(out) == HIGH ? LOW : HIGH);  
+  digitalWrite(s2, HIGH);  
+  //count OUT, pGreen, GREEN  
+  green = pulseIn(out, digitalRead(out) == HIGH ? LOW : HIGH);  
+}
+
